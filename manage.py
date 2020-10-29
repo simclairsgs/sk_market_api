@@ -16,6 +16,7 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
         #sgs
+        #sk
     execute_from_command_line(sys.argv) 
 
 
