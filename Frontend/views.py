@@ -8,3 +8,6 @@ def index(request):
         data = json.load(jfl)
         #print(data['CompanyDetails'])
         return render(request,'Frontend/home.html',data['CompanyDetails'])
+
+def home(request):
+    return render(request,'Frontend/main.html')
