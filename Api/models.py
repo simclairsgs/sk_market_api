@@ -32,7 +32,7 @@ class Stock(models.Model):
 
 
 class Sales(models.Model):
-    Date=models.CharField(max_length=10)
+    Date=models.CharField(max_length=12)
     Sales=models.FloatField()
 
     
