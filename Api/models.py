@@ -15,13 +15,13 @@ class Products(models.Model):
 class Login(models.Model):
     Employee_Id=models.CharField(max_length=10,primary_key=True)
     Employee_Name=models.CharField(max_length=15)
-    Mail_Id=models.EmailField()
-    Date_Of_Birth=models.CharField(max_length=10)
-    Mobile_Number=models.IntegerField()
+    Mail_Id=models.CharField(max_length=35)
+    Date_Of_Birth=models.CharField(max_length=12)
+    Mobile_Number=models.CharField(max_length=15)
     Address=models.CharField(max_length=40)
-    Password=models.CharField(max_length=10)
-    Status=models.BooleanField(default=True)
-    Date_Of_Joining=models.CharField(max_length=10)
+    Password=models.CharField(max_length=15)
+    Status=models.BooleanField(default=False)
+    Date_Of_Joining=models.CharField(max_length=25)
 
 
 class Stock(models.Model):

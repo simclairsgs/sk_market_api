@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,QueryDict
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -27,6 +27,41 @@ def login_auth(request):
         return Response("AuthFailed")
     return Response("AuthFailed")
 
+@api_view(['POST'])
+def register_user(request):
+    #print('*'*50)
+    #print(request.data)
+    emp_name = request.data.get('name')
+    emp_pass = request.data.get('pass')
+    emp_num = request.data.get('num')
+    emp_dob = request.data.get('dob')
+    emp_addr = request.data.get('addr')
+    emp_mail = request.data.get('mail')
+    emp_doj = request.data.get('doj')
+    query = Login.objects.last()
+    emp_id = int(query.Employee_Id)+1
+    emp_status = True
+    emp_str_id = str(emp_id)
+    dict_data = { 
+      'Employee_Id' :  emp_str_id,
+      'Employee_Name': emp_name,
+      'Mail_Id' : emp_mail,
+      'Date_Of_Birth' : emp_dob,
+      'Mobile_Number' : emp_num,
+      'Address' : emp_addr,
+      'Password' : emp_pass,
+      'Status' : emp_status,
+      'Date_Of_Joining' : emp_doj
+    }
+    query_dict = QueryDict('',mutable=True)
+    query_dict.update(dict_data)
+    #print(query_dict)
+    serializer = LoginSerializer(data=dict_data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+        
+    return Response("Failed")
 
 # Products api views 
 

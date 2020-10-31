@@ -13,3 +13,8 @@ def home(request):
     with open('Frontend/data.json') as jfl:
         data = json.load(jfl)
         return render(request,'Frontend/main.html',data['CompanyDetails'])
+
+def register(request):
+     with open('Frontend/data.json') as jfl:
+        data = json.load(jfl)
+        return render(request,'Frontend/register.html',data['CompanyDetails'])
