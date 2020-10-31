@@ -13,27 +13,29 @@
     <script src="https://use.fontawesome.com/dfd0d8441e.js"></script>
 
      {% load static %}
+    
     <link href="{% static 'home.css' %}" rel="stylesheet"></link>
     <script type="text/javascript" src="{% static 'home.js' %}"></script>
-
+    
   </head>
   <body>
   
      <div class="login-dark">
-        <form method="post" style="text-align:center">
+        <form name="login-auth" style="text-align:center" method="POST" onsubmit="return false">
+          {% csrf_token %}
         <span style="text-align:center">{{Name}}</span>
             <h2 class="sr-only">Login Form</h2>
             <div class="illustration"><i class="fa fa-lock"></i></div>
-            <div class="form-group"><input class="form-control" type="text" name="employee_id" placeholder="Employee Id"></div>
-            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
-            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div><a href="#" class="forgot">Forgot your email or password?</a></form>
+            <div class="form-group"><input class="form-control" type="text" name="employee_id" id="emp_id" placeholder="Employee Id"></div>
+            <div class="form-group"><input class="form-control" type="password" name="employee_password" id="emp_pass" placeholder="Password"></div>
+            <div class="form-group"><button class="btn btn-primary btn-block"  onclick="auth()">Log In</button></div><a href="#" class="forgot">Forgot your email or password?</a></form>
     </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <!-- Option 2: jQuery, Popper.js, and Bootstrap JS
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
