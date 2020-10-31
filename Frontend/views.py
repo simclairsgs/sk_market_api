@@ -10,4 +10,6 @@ def index(request):
         return render(request,'Frontend/home.html',data['CompanyDetails'])
 
 def home(request):
-    return render(request,'Frontend/main.html')
+    with open('Frontend/data.json') as jfl:
+        data = json.load(jfl)
+        return render(request,'Frontend/main.html',data['CompanyDetails'])
