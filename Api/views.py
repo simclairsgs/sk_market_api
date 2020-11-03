@@ -28,6 +28,26 @@ def login_auth(request):
     return Response("AuthFailed")
 
 @api_view(['POST'])
+def change_password(request):
+    emp_id = request.data.get('emp_id')
+    emp_pwd_old = request.data.get('emp_pwd_old')
+    emp_pwd_new = request.data.get('emp_pwd_new')
+    try:
+        emp_data=Login.objects.get(Employee_Id=emp_id)
+        if(emp_data.Password == emp_pwd_old):
+            emp_data.Password = emp_pwd_new
+            emp_data.save()
+            return Response("Password Changed...")
+    except:
+        return Response("Failed.......")
+    return Response("Failed")
+
+
+
+
+    
+
+@api_view(['POST'])
 def register_user(request):
     #print('*'*50)
     #print(request.data)
@@ -91,11 +111,12 @@ def product_add(request):
 @api_view(['POST'])
 def product_update(request, Id):
     products = Products.objects.get(Product_Id=Id)
-    serializer = ProductSerializer(instance=products, data=request.data)
+    serializer = ProductSerializer(instance=Products, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response("Ok")
     return Response("Failed")
+
 
 
 @api_view(['DELETE'])
@@ -202,6 +223,8 @@ def total_sales(request):
         return Response("Ok")
     return Response("Failed")
 
+
+
 @api_view(['GET'])
 def get_sales_of(request,date):
     sales=Sales.objects.get(Date=date)
@@ -215,6 +238,3 @@ def get_all_sales(request):
     serializer=SalesSerializer(alls,many=True)
     return Response(serializer.data)
     
-
-
-
