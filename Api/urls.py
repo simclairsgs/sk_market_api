@@ -19,6 +19,7 @@ urlpatterns = [
     path('employees/',views.employee_list,name='Employee_list'),
     path('employee-delete/<str:Id>/',views.employee_delete,name='employee_delete'),
     path('employee-update/<str:Id>/', views.employee_update, name='employee-product'),
+    path('change-password/',views.change_password,name="change_password"),
 
     # stock data api
     path('stock-add-data/',views.stock_add_detail,name='stock_manage'),
