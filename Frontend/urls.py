@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.index,name='frontend_index'),
     path('home', views.home,name='home'),
     path('register', views.register,name='register'),
+    path('change-password', views.change_pass,name='change_pass'),
 ]

@@ -18,3 +18,6 @@ def register(request):
      with open('Frontend/data.json') as jfl:
         data = json.load(jfl)
         return render(request,'Frontend/register.html',data['CompanyDetails'])
+
+def change_pass(request):
+    return render(request,'Frontend/change_pass.html')
