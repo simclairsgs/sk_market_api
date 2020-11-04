@@ -21,3 +21,15 @@ def register(request):
 
 def change_pass(request):
     return render(request,'Frontend/change_pass.html')
+
+def forgot_pass(request):
+    return render(request,'Frontend/forgot_pass.html')
+
+def billing(request):
+    return render(request,'Frontend/sub_billing.html')
+
+def penq(request):
+    return render(request,'Frontend/sub_product-search.html')
+
+def senq(request):
+    return render(request,'Frontend/sub_stock-check.html')

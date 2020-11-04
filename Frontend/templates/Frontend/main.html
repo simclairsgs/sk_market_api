@@ -26,21 +26,22 @@
       <a style="text-decoration:none"  href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li style="margin-right:35px"><span id="husrnm">__username__</span></li>
-        <li><a style="text-decoration:none" href="#"><i class="material-icons left">store</i>Home</a></li>
-        <li><a style="text-decoration:none" href="#"><i class="material-icons left">search</i>Products</a></li>
-        <li><a style="text-decoration:none" href="#"><i class="material-icons left">trending_up</i>Sales</a></li>
+        <li><a style="text-decoration:none" href="#" onclick="billing(event)"><i class="material-icons left">store</i>Home</a></li>
+        <li><a style="text-decoration:none" href="#" onclick="product_enq(event)"><i class="material-icons left">search</i>Products</a></li>
+        <li><a style="text-decoration:none" href="#" onclick="stock_enq(event)"><i class="material-icons left">trending_up</i>Sales</a></li>
         <li><a style="text-decoration:none" href="#" onclick="logout(event)"><i class="material-icons left">person</i>Logout</a></li>
       </ul>
     </div>
   </nav>
 
   <ul class="sidenav" id="mobile-demo">
-    <li><a style="text-decoration:none" href="#"><i class="material-icons left">store</i>Home</a></li>
-    <li><a style="text-decoration:none" href="#"><i class="material-icons left">search</i>Products</a></li>
-    <li><a style="text-decoration:none" href="#"><i class="material-icons left">trending_up</i>Sales</a></li>
+    <li><a style="text-decoration:none" href="#"  onclick="billing(event)"><i class="material-icons left">store</i>Home</a></li>
+    <li><a style="text-decoration:none" href="#" onclick="product_enq(event)"><i class="material-icons left">search</i>Products</a></li>
+    <li><a style="text-decoration:none" href="#" onclick="stock_enq(event)"><i class="material-icons left">trending_up</i>Sales</a></li>
     <li><a style="text-decoration:none" href="#" onclick="logout(event)"><i class="material-icons left">person</i>Logout</a></li>
   </ul>
     </div>
+    <iframe id="main-content" class="main-content" src="/billing"></iframe>
     <!-- Optional JavaScript; choose one of the two! -->
      
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->

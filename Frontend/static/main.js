@@ -16,3 +16,22 @@ function logout(e)
     sessionStorage.clear();
     window.location = '/';
 }
+
+function billing(e)
+{
+    e.preventDefault();
+    document.getElementById("main-content").src = '/billing'
+}
+
+function product_enq(e)
+{
+    e.preventDefault();
+    $('#main-content').attr('src','/products-enq')
+}
+
+function stock_enq(e)
+{
+
+    e.preventDefault();
+    document.getElementById("main-content").src = '/stock-enq'
+}

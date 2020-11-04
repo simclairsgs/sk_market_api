@@ -23,14 +23,14 @@
      <div class="login-dark">
         <form name="login-auth" style="text-align:center" method="POST" onsubmit="return false">
           {% csrf_token %}
-        <span style="text-align:center">Change Password</span>
-            <h2 class="sr-only">Change Pass</h2>
+        <span style="text-align:center">Forgot Password</span>
+            <h2 class="sr-only">Forgot Pass</h2>
             <div class="illustration"><i class="fa fa-lock"></i></div>
-            <div class="form-group"><input class="form-control" type="text" name="employee_id" id="cemp_id" placeholder="Employee Id"></div>
-            <div class="form-group"><input class="form-control" type="password" name="employee_opassword" id="cemp_old_pass" placeholder="Current Password"></div>
-            <div class="form-group"><input class="form-control" type="password" name="employee_npassword" id="cemp_new_pass" placeholder="New Password"></div>
-            <div class="form-group"><button class="btn btn-primary btn-block"  onclick="change_pass()">Change Password</button></div>
-           <a href="/forgot-password" class="forgot">Forgot Password ?</a>  </form>
+            <div class="form-group"><input class="form-control" type="text" id="femp_id" placeholder="Employee Id"></div>
+            <div class="form-group"><input class="form-control" type="text" id="femp_dob" placeholder="Date of Birth dd-mm-yyyy"></div>
+            <div class="form-group"><input class="form-control" type="text"  id="femp_mail" placeholder="E-Mail"></div>
+            <div class="form-group"><button class="btn btn-primary btn-block"  onclick="forgot()">Submit</button></div>
+         </form>
                
     </div>
     <!-- Optional JavaScript; choose one of the two! -->
