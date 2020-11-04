@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Products,Login,Sales,Stock,Billing
-from .serializers import ProductSerializer,LoginSerializer,SalesSerializer,StockSerializer,BillingSerializer
+from .models import Products,Login,Sales,Stock,Billing,Tax
+from .serializers import ProductSerializer,LoginSerializer,SalesSerializer,StockSerializer,BillingSerializer,TaxSerializer
 
 
 # sample test api
@@ -253,4 +253,31 @@ def get_all_sales(request):
     alls=Sales.objects.all()
     serializer=SalesSerializer(alls,many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def get_all_tax(request):
+    tax=Tax.objects.all()
+    serializer=TaxSerializer(tax,many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_tax_of(request,date):
+    tax=Tax.objects.get(Tax_Date=date)
+    serializer=TaxSerializer(tax,many=False)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def add_tax(request):
+    serializer =TaxSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response("Ok")
+    return Response("Failed")
+
+
+
+
+
     
