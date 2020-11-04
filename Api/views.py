@@ -43,14 +43,33 @@ def change_password(request):
     return Response("Failed")
 
 
-
+@api_view(['POST'])
+def forgot_password(request):
+    emp_id = request.data.get('emp_id')
+    emp_dob = request.data.get('emp_dob')
+    emp_mail = request.data.get('emp_mail')
+    try:
+        emp_data=Login.objects.get(Employee_Id=emp_id)
+        if(emp_data.Date_Of_Birth == emp_dob and emp_data.Mail_Id == emp_mail):
+            import smtplib
+            sender_email = "sgs.alertsys@gmail.com"
+            pwd = "9894437543"
+            receiver = emp_mail
+            message = 'Hello '+emp_data.Employee_Name+'..\n\n\nYou have requested your password through\n forgot password portal\nAnd your password is '+emp_data.Password+' \n\n\nThis is a system generated mail, Do not Reply.....'
+            server = smtplib.SMTP('smtp.gmail.com',587)
+            server.starttls()
+            server.login(sender_email,pwd)
+            server.sendmail(sender_email,receiver,message)
+            print('mail sent..to '+emp_mail)
+            return Response("Password has been sent to your Mail account.")
+    except:
+        return Response("Failed..Bad Request")
+    return Response("Failed - Wrong credentials")
 
     
 
 @api_view(['POST'])
 def register_user(request):
-    #print('*'*50)
-    #print(request.data)
     emp_name = request.data.get('name')
     emp_pass = request.data.get('pass')
     emp_num = request.data.get('num')
@@ -73,9 +92,6 @@ def register_user(request):
       'Status' : emp_status,
       'Date_Of_Joining' : emp_doj
     }
-    query_dict = QueryDict('',mutable=True)
-    query_dict.update(dict_data)
-    #print(query_dict)
     serializer = LoginSerializer(data=dict_data)
     if serializer.is_valid():
         serializer.save()

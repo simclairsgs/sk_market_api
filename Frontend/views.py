@@ -21,3 +21,6 @@ def register(request):
 
 def change_pass(request):
     return render(request,'Frontend/change_pass.html')
+
+def forgot_pass(request):
+    return render(request,'Frontend/forgot_pass.html')

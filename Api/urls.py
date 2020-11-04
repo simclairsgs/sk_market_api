@@ -5,6 +5,8 @@ urlpatterns = [
     # Login Authentication 
     path('login-auth/',views.login_auth,name='login_auth'),
     path('register-user/',views.register_user,name='register_user'),
+    path('change-password/',views.change_password,name="change_password"),
+    path('forgot-password/',views.forgot_password,name="forgot_password"),
 
     # Products data api
     path('',views.api,name='api'),
@@ -19,7 +21,7 @@ urlpatterns = [
     path('employees/',views.employee_list,name='Employee_list'),
     path('employee-delete/<str:Id>/',views.employee_delete,name='employee_delete'),
     path('employee-update/<str:Id>/', views.employee_update, name='employee-product'),
-    path('change-password/',views.change_password,name="change_password"),
+    
 
     # stock data api
     path('stock-add-data/',views.stock_add_detail,name='stock_manage'),
