@@ -8,17 +8,28 @@
         {
             window.location='/';
         }
-
+        
       </script>
     </head>
     <body >  
     <div class="row" style="width:100%%;height:102vh;">
-    <div class="col-md-9 col-xs-12" style="background-color:blue;height:102vh;">
-    <span style="color:white;text-align:center">Billing Table </span>
+    <div class="col-md-9 col-xs-12" style="height:102vh;">
+    <table id="bill-table" class="display" style="width:100%">
+     <thead>
+            <tr>
+                <th>S.No</th>
+                 <th>Product Id</th>
+                <th>Item</th>
+                <th>Rate</th>
+                <th>Qty</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+    </table>
     </div>
      <div class="col-md-3 col-xs-12" style="background-color:yellow;height:102vh;padding:0 0;">
      <div style="height:51vh;background-color:green;">
-     <span style="color:white;text-align:center">Add product area</span>
+     <span  onclick="test()" style="color:white;text-align:center">Add product area</span>
      </div>
      <div style="height:51vh;background-color:red;">
      <span style="color:white;text-align:center">Totalling area</span>
@@ -29,5 +40,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+
+    <script type="text/javascript">
+    let table = $('#bill-table').DataTable();
+    function test()
+        {
+         table.row.add(['1','12354','dsdgsgdgdfbdfhbjdfhbidsfhgsdfhbdifhbefijkhgblielhjtirh','4','565','788']).draw();
+        }
+    </script>
     </body>
 </html>
