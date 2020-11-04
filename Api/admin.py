@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Products,Login,Sales,Stock,Billing
+from .models import Products,Login,Sales,Stock,Billing,Tax
 
 # Register your models here.
 
@@ -25,8 +25,12 @@ class StockAdmin(admin.ModelAdmin):
 class BillingAdmin(admin.ModelAdmin):
     list_display = ['Bill_No','Timestamp','Products','Product_Count', 'Amount', 'Billing_Employee']
 
+class TaxAdmin(admin.ModelAdmin):
+    list_display=['Tax_Date','Tax_Amount']
+
 admin.site.register(Products, ProductsAdmin)
 admin.site.register(Login,LoginAdmin)
 admin.site.register(Sales,SalesAdmin)
 admin.site.register(Stock,StockAdmin)
 admin.site.register(Billing,BillingAdmin)
+admin.site.register(Tax,TaxAdmin)

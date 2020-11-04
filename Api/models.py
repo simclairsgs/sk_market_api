@@ -43,3 +43,9 @@ class Billing(models.Model):
     Product_Count=models.IntegerField()
     Amount=models.FloatField()
     Billing_Employee=models.CharField(max_length=10)
+
+
+class Tax(models.Model):
+    Tax_Date=models.CharField(max_length=20,default='0.00')
+    Tax_Amount=models.CharField(max_length=20)
+    

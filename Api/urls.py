@@ -38,4 +38,9 @@ urlpatterns = [
     path('get-salesof/<str:date>/',views.get_sales_of,name='get_sales_of'),
     path('get-allsales/',views.get_all_sales,name='Get_All_sales'),
 
+    #tax data api
+    path('add-tax/',views.add_tax,name='add-tax'),
+    path('get-alltax/',views.get_all_tax,name='get-alltax'),
+    path('get-taxof/<str:date>/',views.get_tax_of,name='get_taxof')
+
 ]
