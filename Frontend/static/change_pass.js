@@ -22,3 +22,20 @@ function change_pass()
    }
 
 }
+
+function forgot()
+{
+    let emp_id = document.getElementById("femp_id").value
+    let emp_dob = document.getElementById("femp_dob").value
+    let emp_mail = document.getElementById("femp_mail").value
+
+    toastr.warning("Please Wait...\nIt may take upto 10 sec.")
+    $.post('/api/forgot-password/',
+    "emp_id="+emp_id+"&emp_dob="+emp_dob+"&emp_mail="+emp_mail,
+    function(data,status)
+    {
+        alert(data)
+        window.location = "/";
+    }
+    )
+}
