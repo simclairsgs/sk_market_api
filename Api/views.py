@@ -43,6 +43,8 @@ def change_password(request):
     return Response("Failed")
 
 
+
+
 @api_view(['POST'])
 def forgot_password(request):
     emp_id = request.data.get('emp_id')
@@ -98,6 +100,8 @@ def register_user(request):
         return Response(serializer.data)
         
     return Response("Failed")
+
+
 
 # Products api views 
 
@@ -275,6 +279,33 @@ def add_tax(request):
         serializer.save()
         return Response("Ok")
     return Response("Failed")
+
+
+@api_view(['POST'])
+def reduce_stock(request):
+    pro_id=request.data.get('pro_id')
+    pro_qun=request.data.get('pro_qun')
+    try:
+        
+        pro_data=Products.objects.get(Product_Id=pro_id)
+        
+        qun=pro_data.Stock_Balance
+        print(qun)
+        pro_data.Stock_Balance=qun-pro_qun
+        pro_data.save()
+        return Response('Stock raduce successes...')
+    except:
+        return Response('Failed.......')
+    return Response('Failed')
+
+
+@api_view(['GET'])
+def create_billnum(request):
+    bill = Billing.objects.last()
+    current_bill=(bill.Bill_No)+1
+    return Response(current_bill)
+
+
 
 
 
