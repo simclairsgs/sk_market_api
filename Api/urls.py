@@ -32,6 +32,7 @@ urlpatterns = [
     # billing data api
     path('billing-product/',views.billing_product,name='billing_product'),
     path('billing-list/',views.billing_list,name='billing_list'),
+    path('create-billnum',views.create_billnum,name='create-billnum'),
 
     #sales data api
     path('total-sales/',views.total_sales,name='total_sales'),
@@ -41,6 +42,9 @@ urlpatterns = [
     #tax data api
     path('add-tax/',views.add_tax,name='add-tax'),
     path('get-alltax/',views.get_all_tax,name='get-alltax'),
-    path('get-taxof/<str:date>/',views.get_tax_of,name='get_taxof')
+    path('get-taxof/<str:date>/',views.get_tax_of,name='get_taxof'),
+
+    #stock manage
+    path('reduce-stock/',views.reduce_stock,name='reduce-stock')
 
 ]
