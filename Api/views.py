@@ -322,6 +322,16 @@ def create_billnum(request):
 
 
 
+@api_view(['GET'])
+def get_product_detils_name(request,Name):
+    name=Products.objects.get(product_Name=Name)
+    serializer=ProductSerializer(name,many=False)
+    return Response(serializer.data)
+
+
+
+
+
 
 
 
