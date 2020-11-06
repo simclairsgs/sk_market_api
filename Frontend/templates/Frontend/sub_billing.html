@@ -34,7 +34,7 @@
     <body >  
     <div class="row" style="width:100%;">
     <div class="col-md-9 col-xs-12" style="padding-top:15px;padding-left:18px;" >
-        <h5 style="color:black;background-color:yellow;width:140px;">Bill No: <span>123456</span></h5>
+        <h5 style="color:black;background-color:yellow;width:140px;">Bill No: <span id="billno-disp"></span></h5>
         <table id="bill-table" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
@@ -85,9 +85,16 @@
     <script type="text/javascript">
     let sno = 1;
     let amt = 0.0;
+    let itlist = [];
    $(document).ready(function() {
     $('#bill-table').DataTable();
     document.getElementById("product-qty").value= 1;
+    $.get('api/create-billnum',function(data,status)
+    {
+        //console.log(data)
+        document.getElementById("billno-disp").innerText=data
+    })
+    
     $.get('api/products-namelist',function(data,status)
     {
              $('#product-name-search').autocomplete({
@@ -106,11 +113,31 @@
          document.getElementById("product-id-search").value = "";
          document.getElementById("product-qty").value = 1;
          //prepare for next bill
+        sno = 1;
+        amt = 0.0;
+        itlist = [];
+        document.getElementById("Total-amt").innerText = amt;
     }
 
     function create_bill()
     {
-        alert("bill will be created")
+        let data = JSON.parse(sessionStorage.getItem("employee_data"))
+        pcount = sno-1;
+        let plist_str = "";
+        for(let i=0; i<itlist.length ;i++)
+        {
+            plist_str += itlist[i]+" , "
+        }
+        //console.log(pcount,itlist,document.getElementById("billno-disp").innerText,new Date().toDateString()+" "+new Date().toLocaleTimeString(),data.Employee_Name,amt)
+        $.post('api/billing-product/',"Bill_No="+document.getElementById("billno-disp").innerText+"&Timestamp="+new Date().toDateString()+" "+new Date().toLocaleTimeString()+
+        "&Products="+plist_str+"&Product_Count="+Number(pcount)+"&Amount="+Number(amt)+"&Billing_Employee="+data.Employee_Name,
+        function(data,status)
+        {
+           if(data)
+           {
+               location.reload();
+           }
+        })
     }
 
     function add_product_to_table()
@@ -128,9 +155,10 @@
                 {
                     let lsno = sno;
                     sno += 1; 
-                    let fprice = Number(data.Price)*Number(Qty)
+                    let fprice = Number(data.Price)*Number(Qty);
                     amt += fprice;
-                    document.getElementById("Total-amt").innerText = amt;
+                    itlist.push(data.product_Name)
+                    document.getElementById("Total-amt").innerText = String(amt);
                     $('#bill-table').DataTable().row.add([lsno,data.product_Name,data.Product_Id,data.Price,Qty,fprice]).draw();
                     document.getElementById("product-id-search").value = "";
                     document.getElementById("product-qty").value = 1;
