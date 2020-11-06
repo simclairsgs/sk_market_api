@@ -15,6 +15,8 @@ urlpatterns = [
     path('products-add/', views.product_add, name='add-product'),
     path('products-update/<str:Id>/', views.product_update, name='update-product'),
     path('products-delete/<str:Id>/', views.product_delete, name='delete-product'),
+    path('products-namelist', views.product_namelist, name='Pname_autocomplete'),
+    path('products-idlist', views.product_idlist, name='Pid_autocomplete'),
 
     # Employee/Login data api
     path('employee-addnew/',views.login_add_users,name='login-adduser'),

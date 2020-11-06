@@ -5,6 +5,7 @@
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"/>
     <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"/>-->
      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"/>
+     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
       <script type="text/javascript">
       if(!sessionStorage.getItem("auth_status"))
         {
@@ -21,6 +22,13 @@
          outline:none;
          box-shadow:none;
      }
+     #name-container,#id-container {
+    display: block; 
+    position:relative
+} 
+.ui-autocomplete {
+    position: absolute;
+}
       </style>
     </head>
     <body >  
@@ -46,8 +54,12 @@
      <div class="col-md-3 col-xs-12" style="height:102vh;padding:0 0;">
      <div style="text-align:center;height:51vh;">
   <form name="add-product-form" style="text-align:center" method="POST" onsubmit="return false">
-  <div class="form-group"><input class="form-control input-field" type="text" name="" id="product-id-search" placeholder="Product Id"></div>
-            <div class="form-group"><input class="form-control input-field" type="text" name="" id="product-name-search" placeholder="Product Name"></div>
+  <div class="form-group"><input class="form-control input-field" type="text" name="" id="product-id-search" placeholder="Product Id">
+              <div id="id-container">
+</div></div>
+            <div class="form-group"><input class="form-control input-field" type="text" name="" id="product-name-search" placeholder="Product Name">
+            <div id="name-container">
+</div></div>
             <div class="form-group"><input class="form-control input-field" type="number" name="" id="product-qty" default="1"></div>
             <div class="form-group"><button class="btn btn-primary btn-block" onclick="add_product_to_table()" style="margin-top:45px;" >Add</button></div>
   </form>
@@ -64,8 +76,10 @@
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-
-
+ <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
 
     <script type="text/javascript">
@@ -74,6 +88,16 @@
    $(document).ready(function() {
     $('#bill-table').DataTable();
     document.getElementById("product-qty").value= 1;
+    $.get('api/products-namelist',function(data,status)
+    {
+             $('#product-name-search').autocomplete({
+        source: data,
+        appendTo: "#name-container"
+    });
+
+
+    });
+   
     } );
 
     function discard_bill()
@@ -92,19 +116,28 @@
     function add_product_to_table()
     {
        let p_id = document.getElementById("product-id-search").value
+       let p_name = document.getElementById("product-name-search").value
        let Qty = document.getElementById("product-qty").value
-       $.get('/api/products-detail/'+p_id ,function(data,status)
+       if(p_id === "")
        {
-         let lsno = sno;
-         sno += 1; 
-         let fprice = Number(data.Price)*Number(Qty)
-         amt += fprice;
-         document.getElementById("Total-amt").innerText = amt;
-          $('#bill-table').DataTable().row.add([lsno,data.product_Name,data.Product_Id,data.Price,Qty,fprice]).draw();
-          document.getElementById("product-id-search").value = "";
-          document.getElementById("product-qty").value = 1;
-          document.getElementById("product-id-search").select();
-       })
+           console.log(p_name)
+       }
+       else
+       {
+            $.get('/api/products-detail/'+p_id ,function(data,status)
+                {
+                    let lsno = sno;
+                    sno += 1; 
+                    let fprice = Number(data.Price)*Number(Qty)
+                    amt += fprice;
+                    document.getElementById("Total-amt").innerText = amt;
+                    $('#bill-table').DataTable().row.add([lsno,data.product_Name,data.Product_Id,data.Price,Qty,fprice]).draw();
+                    document.getElementById("product-id-search").value = "";
+                    document.getElementById("product-qty").value = 1;
+                    document.getElementById("product-id-search").select();
+                })
+       }
+       
     }
      $('form input').keydown(function (e) {
     if (e.keyCode == 13) {

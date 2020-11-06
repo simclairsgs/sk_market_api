@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse,QueryDict
+from django.http import HttpResponse,QueryDict,JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -114,10 +114,25 @@ def product_detail(requests, Id):
 
 @api_view(['GET'])
 def product_list(request):
-        products = Products.objects.all()
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
+    products = Products.objects.all()
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
 
+@api_view(['GET'])
+def product_namelist(request):
+    queryset = Products.objects.all().values_list('product_Name')
+    l=list()
+    for i in queryset:
+        l.append(i[0])
+    return JsonResponse(l,safe=False)
+
+@api_view(['GET'])
+def product_idlist(request):
+    queryset = Products.objects.all().values_list('Product_Id')
+    l=list()
+    for i in queryset:
+        l.append(i[0])
+    return JsonResponse(l,safe=False)
 
 @api_view(['POST'])
 def product_add(request):
