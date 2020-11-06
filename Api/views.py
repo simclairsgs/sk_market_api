@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Products,Login,Sales,Stock,Billing
-from .serializers import ProductSerializer,LoginSerializer,SalesSerializer,StockSerializer,BillingSerializer
+from .models import Products,Login,Sales,Stock,Billing,Tax
+from .serializers import ProductSerializer,LoginSerializer,SalesSerializer,StockSerializer,BillingSerializer,TaxSerializer
 
 
 # sample test api
@@ -41,6 +41,8 @@ def change_password(request):
     except:
         return Response("Failed.......")
     return Response("Failed")
+
+
 
 
 @api_view(['POST'])
@@ -98,6 +100,8 @@ def register_user(request):
         return Response(serializer.data)
         
     return Response("Failed")
+
+
 
 # Products api views 
 
@@ -253,4 +257,58 @@ def get_all_sales(request):
     alls=Sales.objects.all()
     serializer=SalesSerializer(alls,many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def get_all_tax(request):
+    tax=Tax.objects.all()
+    serializer=TaxSerializer(tax,many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_tax_of(request,date):
+    tax=Tax.objects.get(Tax_Date=date)
+    serializer=TaxSerializer(tax,many=False)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def add_tax(request):
+    serializer =TaxSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response("Ok")
+    return Response("Failed")
+
+
+@api_view(['POST'])
+def reduce_stock(request):
+    pro_id=request.data.get('pro_id')
+    pro_qun=request.data.get('pro_qun')
+    try:
+        
+        pro_data=Products.objects.get(Product_Id=pro_id)
+        
+        qun=pro_data.Stock_Balance
+        print(qun)
+        pro_data.Stock_Balance=qun-pro_qun
+        pro_data.save()
+        return Response('Stock raduce successes...')
+    except:
+        return Response('Failed.......')
+    return Response('Failed')
+
+
+@api_view(['GET'])
+def create_billnum(request):
+    bill = Billing.objects.last()
+    current_bill=(bill.Bill_No)+1
+    return Response(current_bill)
+
+
+
+
+
+
+
     

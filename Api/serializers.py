@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Products,Login,Sales,Stock,Billing
+from .models import Products,Login,Sales,Stock,Billing,Tax
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -28,4 +28,9 @@ class StockSerializer(serializers.ModelSerializer):
 class BillingSerializer(serializers.ModelSerializer):
     class Meta:
         model=Billing
+        fields='__all__'
+
+class TaxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Tax
         fields='__all__'
