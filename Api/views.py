@@ -146,7 +146,7 @@ def product_add(request):
 @api_view(['POST'])
 def product_update(request, Id):
     products = Products.objects.get(Product_Id=Id)
-    serializer = ProductSerializer(instance=Products, data=request.data)
+    serializer = ProductSerializer(instance=products, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response("Ok")
