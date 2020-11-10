@@ -81,7 +81,7 @@ def register_user(request):
     emp_doj = request.data.get('doj')
     query = Login.objects.last()
     emp_id = int(query.Employee_Id)+1
-    emp_status = True
+    emp_status = False
     emp_str_id = str(emp_id)
     dict_data = { 
       'Employee_Id' :  emp_str_id,
@@ -146,7 +146,7 @@ def product_add(request):
 @api_view(['POST'])
 def product_update(request, Id):
     products = Products.objects.get(Product_Id=Id)
-    serializer = ProductSerializer(instance=Products, data=request.data)
+    serializer = ProductSerializer(instance=products, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response("Ok")
@@ -241,6 +241,7 @@ def billing_list(request):
 @api_view(['POST'])
 def billing_product(request):
     serializer=BillingSerializer(data=request.data)
+    print(request,request.data)
     if serializer.is_valid():
         serializer.save()
         return Response("Successfully")
@@ -301,12 +302,11 @@ def reduce_stock(request):
     pro_id=request.data.get('pro_id')
     pro_qun=request.data.get('pro_qun')
     try:
-        
         pro_data=Products.objects.get(Product_Id=pro_id)
-        
         qun=pro_data.Stock_Balance
-        print(qun)
-        pro_data.Stock_Balance=qun-pro_qun
+        #if(qun<5):
+            #re-order stock using stock table
+        pro_data.Stock_Balance=qun-int(pro_qun)
         pro_data.save()
         return Response('Stock raduce successes...')
     except:
