@@ -81,7 +81,7 @@ def register_user(request):
     emp_doj = request.data.get('doj')
     query = Login.objects.last()
     emp_id = int(query.Employee_Id)+1
-    emp_status = True
+    emp_status = False
     emp_str_id = str(emp_id)
     dict_data = { 
       'Employee_Id' :  emp_str_id,
@@ -241,6 +241,7 @@ def billing_list(request):
 @api_view(['POST'])
 def billing_product(request):
     serializer=BillingSerializer(data=request.data)
+    print(request,request.data)
     if serializer.is_valid():
         serializer.save()
         return Response("Successfully")
