@@ -86,6 +86,7 @@
     let sno = 1;
     let amt = 0.0;
     let itlist = [];
+    let billobj = [];
    $(document).ready(function() {
     $('#bill-table').DataTable();
     document.getElementById("product-qty").value= 1;
@@ -115,6 +116,7 @@
          //prepare for next bill
         sno = 1;
         amt = 0.0;
+        billobj = [];
         itlist = [];
         document.getElementById("Total-amt").innerText = amt;
     }
@@ -127,6 +129,16 @@
         for(let i=0; i<itlist.length ;i++)
         {
             plist_str += itlist[i]+" , "
+        }
+        for(let j=0;j<billobj.length;j++)
+        {
+            console.log(billobj)
+            let pid = billobj[j][2]
+            let pcnt = billobj[j][4]
+            //console.log(pid,pcnt)
+            $.post('api/reduce-stock/',"pro_id="+pid+"&pro_qun="+pcnt,function(data,status)
+            {//console.log(data,status)
+            })
         }
         //console.log(pcount,itlist,document.getElementById("billno-disp").innerText,new Date().toDateString()+" "+new Date().toLocaleTimeString(),data.Employee_Name,amt)
         $.post('api/billing-product/',"Bill_No="+document.getElementById("billno-disp").innerText+"&Timestamp="+new Date().toDateString()+" "+new Date().toLocaleTimeString()+
@@ -147,7 +159,21 @@
        let Qty = document.getElementById("product-qty").value
        if(p_id === "")
        {
-           console.log(p_name)
+           //console.log(p_name)
+           $.get('api/getproduct-detailsname/'+p_name,function(data,status){
+                let lsno = sno;
+                    sno += 1; 
+                    let fprice = Number(data.Price)*Number(Qty);
+                    amt += fprice;
+                    itlist.push(data.product_Name)
+                    document.getElementById("Total-amt").innerText = String(amt);
+                    billobj.push([lsno,data.product_Name,data.Product_Id,data.Price,Qty,fprice])
+                    $('#bill-table').DataTable().row.add([lsno,data.product_Name,data.Product_Id,data.Price,Qty,fprice]).draw();
+                    //document.getElementById("product-id-search").value = "";
+                    document.getElementById("product-qty").value = 1;
+                    document.getElementById("product-name-search").value = "";
+                    document.getElementById("product-id-search").select();
+           })
        }
        else
        {
@@ -159,6 +185,7 @@
                     amt += fprice;
                     itlist.push(data.product_Name)
                     document.getElementById("Total-amt").innerText = String(amt);
+                    billobj.push([lsno,data.product_Name,data.Product_Id,data.Price,Qty,fprice])
                     $('#bill-table').DataTable().row.add([lsno,data.product_Name,data.Product_Id,data.Price,Qty,fprice]).draw();
                     document.getElementById("product-id-search").value = "";
                     document.getElementById("product-qty").value = 1;

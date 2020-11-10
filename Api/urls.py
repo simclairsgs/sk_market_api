@@ -35,7 +35,7 @@ urlpatterns = [
     path('billing-product/',views.billing_product,name='billing_product'),
     path('billing-list/',views.billing_list,name='billing_list'),
     path('create-billnum',views.create_billnum,name='create-billnum'),
-    path('get_product_detilsname/<str:Name>/',views.get_product_detils_name,name='get_product_detils_name'),
+    path('getproduct-detailsname/<str:Name>/',views.get_product_detils_name,name='get_product_detils_name'),
 
     #sales data api
     path('total-sales/',views.total_sales,name='total_sales'),
