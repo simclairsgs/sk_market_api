@@ -9,10 +9,6 @@ from .models import Products,Login,Sales,Stock,Billing,Tax
 from .serializers import ProductSerializer,LoginSerializer,SalesSerializer,StockSerializer,BillingSerializer,TaxSerializer
 
 
-# sample test api
-def api(request):
-    return HttpResponse("Hello World!!")
-
 # Login Auth api
 @api_view(['POST'])
 def login_auth(request):
@@ -26,6 +22,7 @@ def login_auth(request):
     except:
         return Response("AuthFailed")
     return Response("AuthFailed")
+
 
 @api_view(['POST'])
 def change_password(request):
@@ -160,6 +157,16 @@ def product_delete(request, Id):
     products.delete()
     return Response("Deleted Successfully...")
 
+
+
+@api_view(['GET'])
+def get_product_detils_name(request,Name):
+    name=Products.objects.get(product_Name=Name)
+    serializer=ProductSerializer(name,many=False)
+    return Response(serializer.data)
+
+
+
 # Employee/Login api views
 
 @api_view(['GET'])
@@ -229,6 +236,24 @@ def stock_update(request, Id):
     return Response("Failed")
 
 
+@api_view(['POST'])
+def reduce_stock(request):
+    pro_id=request.data.get('pro_id')
+    pro_qun=request.data.get('pro_qun')
+    try:
+        pro_data=Products.objects.get(Product_Id=pro_id)
+        qun=pro_data.Stock_Balance
+        #if(qun<5):
+            #re-order stock using stock table
+        pro_data.Stock_Balance=qun-int(pro_qun)
+        pro_data.save()
+        return Response('Stock raduce successes...')
+    except:
+        return Response('Failed.......')
+    return Response('Failed')
+
+
+
 # Billing api views
 
 @api_view(['GET'])
@@ -241,11 +266,19 @@ def billing_list(request):
 @api_view(['POST'])
 def billing_product(request):
     serializer=BillingSerializer(data=request.data)
-    print(request,request.data)
-    if serializer.is_valid():
+       if serializer.is_valid():
         serializer.save()
         return Response("Successfully")
     return Response("Failed")
+
+
+
+@api_view(['GET'])
+def create_billnum(request):
+    bill = Billing.objects.last()
+    current_bill=(bill.Bill_No)+1
+    return Response(current_bill)
+
 
 
 # Sales api views
@@ -258,6 +291,30 @@ def total_sales(request):
         serializer.save()
         return Response("Ok")
     return Response("Failed")
+
+
+@api_view(['POST'])
+def sales_add(request):
+    serializer = SalesSerializer(data=request.data)
+    Current_date = request.data.get('Date')
+    total = request.data.get('Sales')
+    try:
+        Before_Data = Sales.objects.last()
+        Before_Date = Before_Data.Date
+        Before_Amount = Before_Data.Sales
+        if(Before_Date == Current_date):
+            Before_Data.Sales+= total
+            Before_Data.save()
+            return Response('Same date add work')
+        else:
+            if serializer.is_valid():
+                serializer.save()
+                return Response('new date amount add')
+            else:
+                return Response('new date error')
+    except:
+        return Response('same date error')
+
 
 
 
@@ -274,6 +331,8 @@ def get_all_sales(request):
     serializer=SalesSerializer(alls,many=True)
     return Response(serializer.data)
 
+
+#Tax_api
 @api_view(['GET'])
 def get_all_tax(request):
     tax=Tax.objects.all()
@@ -295,45 +354,3 @@ def add_tax(request):
         serializer.save()
         return Response("Ok")
     return Response("Failed")
-
-
-@api_view(['POST'])
-def reduce_stock(request):
-    pro_id=request.data.get('pro_id')
-    pro_qun=request.data.get('pro_qun')
-    try:
-        pro_data=Products.objects.get(Product_Id=pro_id)
-        qun=pro_data.Stock_Balance
-        #if(qun<5):
-            #re-order stock using stock table
-        pro_data.Stock_Balance=qun-int(pro_qun)
-        pro_data.save()
-        return Response('Stock raduce successes...')
-    except:
-        return Response('Failed.......')
-    return Response('Failed')
-
-
-@api_view(['GET'])
-def create_billnum(request):
-    bill = Billing.objects.last()
-    current_bill=(bill.Bill_No)+1
-    return Response(current_bill)
-
-
-
-@api_view(['GET'])
-def get_product_detils_name(request,Name):
-    name=Products.objects.get(product_Name=Name)
-    serializer=ProductSerializer(name,many=False)
-    return Response(serializer.data)
-
-
-
-
-
-
-
-
-
-    
