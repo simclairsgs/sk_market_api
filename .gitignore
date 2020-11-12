@@ -3,3 +3,4 @@
 /sk_market_api/__pycache__/
 /Api/migrations/__pycache__/
 /Frontend/migrations/__pycache__/
+db.sqlite3
