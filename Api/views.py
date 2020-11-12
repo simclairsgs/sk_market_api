@@ -302,12 +302,11 @@ def reduce_stock(request):
     pro_id=request.data.get('pro_id')
     pro_qun=request.data.get('pro_qun')
     try:
-        
         pro_data=Products.objects.get(Product_Id=pro_id)
-        
         qun=pro_data.Stock_Balance
-        print(qun)
-        pro_data.Stock_Balance=qun-pro_qun
+        #if(qun<5):
+            #re-order stock using stock table
+        pro_data.Stock_Balance=qun-int(pro_qun)
         pro_data.save()
         return Response('Stock raduce successes...')
     except:
