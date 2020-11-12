@@ -16,8 +16,8 @@
       </style>
     </head>
     <body >  
-   
-      <table id="example" class="table table-striped table-bordered" style="width:100%">
+   <div style="padding-top:15px;padding-left:10px;padding-right:10px;">
+      <table id="example" class="table table-striped table-bordered" style="width:95%;margin-top:15px;">
         <thead>
             <tr>
                 <th>Id</th>
@@ -32,7 +32,7 @@
         <tbody>
           
         </tbody>
-    </table>
+    </table></div>
      <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
@@ -45,6 +45,15 @@
     <script type="text/javascript">
     $(document).ready(function() {
     $('#example').DataTable();
+    $.get('api/products',function(data,status)
+    {
+        //console.log(data,typeof(data))
+        for(let i=0; i<data.length;i++)
+        {
+            console.log(data[i])
+            $('#example').DataTable().row.add([data[i].Product_Id,data[i].product_Name,data[i].Description,data[i].MRP,data[i].Price,data[i].Stock_Balance,data[i].Discount]).draw();
+        }
+    });
 } );
     </script>
     </body>
