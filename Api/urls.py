@@ -30,6 +30,7 @@ urlpatterns = [
     path('view-onestock/<str:Id>/',views.view_one_stock,name='view_one_stock'),
     path('view-allstock/',views.view_all_stock,name='view_all_stock'),
     path('stock-update/<str:Id>/', views.stock_update, name='stock-update'),
+    path('reduce-stock/',views.reduce_stock,name='reduce-stock'),
 
     # billing data api
     path('billing-product/',views.billing_product,name='billing_product'),
@@ -41,13 +42,11 @@ urlpatterns = [
     path('total-sales/',views.total_sales,name='total_sales'),
     path('get-salesof/<str:date>/',views.get_sales_of,name='get_sales_of'),
     path('get-allsales/',views.get_all_sales,name='Get_All_sales'),
+    path('sales-add/',views.sales_add,name='sales_add'),
 
     #tax data api
     path('add-tax/',views.add_tax,name='add-tax'),
     path('get-alltax/',views.get_all_tax,name='get-alltax'),
     path('get-taxof/<str:date>/',views.get_tax_of,name='get_taxof'),
-
-    #stock manage
-    path('reduce-stock/',views.reduce_stock,name='reduce-stock')
 
 ]

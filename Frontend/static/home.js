@@ -10,6 +10,8 @@ function auth(event)
             sessionStorage.setItem("auth_status",true)
             let data_serial = JSON.stringify(data);
             sessionStorage.setItem("employee_data",data_serial)
+            //alert(document.getElementById("comp-name").innerText);
+            sessionStorage.setItem("company_name",document.getElementById("comp-name").innerText)
             window.location="/home";
         }
         else
