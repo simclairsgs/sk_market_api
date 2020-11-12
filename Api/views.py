@@ -266,7 +266,7 @@ def billing_list(request):
 @api_view(['POST'])
 def billing_product(request):
     serializer=BillingSerializer(data=request.data)
-       if serializer.is_valid():
+    if serializer.is_valid():
         serializer.save()
         return Response("Successfully")
     return Response("Failed")
