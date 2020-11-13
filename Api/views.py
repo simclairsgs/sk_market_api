@@ -301,19 +301,21 @@ def sales_add(request):
     try:
         Before_Data = Sales.objects.last()
         Before_Date = Before_Data.Date
-        Before_Amount = Before_Data.Sales
+        #print(Before_Date,Current_date)
         if(Before_Date == Current_date):
-            Before_Data.Sales+= total
+            #print(Before_Data.Sales,total,type(total))
+            Before_Data.Sales += float(total)
             Before_Data.save()
             return Response('Same date add work')
         else:
+            #print(serializer,serializer.is_valid())
             if serializer.is_valid():
                 serializer.save()
-                return Response('new date amount add')
+                return Response('new date amount added')
             else:
-                return Response('new date error')
+                return Response('new date but error')
     except:
-        return Response('same date error')
+        return Response('exeption error')
 
 
 

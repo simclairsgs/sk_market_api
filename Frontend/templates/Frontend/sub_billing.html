@@ -34,7 +34,7 @@
     <body >  
     <div class="row" style="width:100%;">
     <div class="col-md-9 col-xs-12" style="padding-top:15px;padding-left:18px;" id="table-div">
-        <h5 style="color:black;background-color:yellow;width:140px;">Bill No: <span id="billno-disp"></span></h5>
+        <h5 style="color:black;background-color:yellow;width:120px;">Bill No: <span id="billno-disp"></span></h5>
         <table id="bill-table" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
@@ -131,7 +131,7 @@
         }
         for(let j=0;j<billobj.length;j++)
         {
-            console.log(billobj)
+            //console.log(billobj)
             let pid = billobj[j][2]
             let pcnt = billobj[j][4]
             //console.log(pid,pcnt)
@@ -139,6 +139,10 @@
             {//console.log(data,status)
             })
         }
+        $.post('api/sales-add/',"Date="+new Date().toLocaleDateString().split('/').join('.')+"&Sales="+Number(amt),function(dt,status)
+        {
+            console.log(dt,status)
+        });
         //console.log(pcount,itlist,document.getElementById("billno-disp").innerText,new Date().toDateString()+" "+new Date().toLocaleTimeString(),data.Employee_Name,amt)
         $.post('api/billing-product/',"Bill_No="+document.getElementById("billno-disp").innerText+"&Timestamp="+new Date().toDateString()+" "+new Date().toLocaleTimeString()+
         "&Products="+plist_str+"&Product_Count="+Number(pcount)+"&Amount="+Number(amt)+"&Billing_Employee="+data.Employee_Name,
