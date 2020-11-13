@@ -9,7 +9,6 @@ urlpatterns = [
     path('forgot-password/',views.forgot_password,name="forgot_password"),
 
     # Products data api
-    path('',views.api,name='api'),
     path('products/', views.product_list, name='list-products'),
     path('products-detail/<str:Id>/', views.product_detail, name='list-detail'),
     path('products-add/', views.product_add, name='add-product'),
