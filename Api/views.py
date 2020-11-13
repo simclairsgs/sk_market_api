@@ -52,7 +52,9 @@ def forgot_password(request):
         if(emp_data.Date_Of_Birth == emp_dob and emp_data.Mail_Id == emp_mail):
             import smtplib
             sender_email = "sgs.alertsys@gmail.com"
-            pwd = "9894437543"
+            import base64
+            val = b'c2ltY2xhaXIuc2dzQDk0ODczNTQwMzg='
+            pwd = base64.b64decode(val).decode('utf-8')
             receiver = emp_mail
             message = 'Hello '+emp_data.Employee_Name+'..\n\n\nYou have requested your password through\n forgot password portal\nAnd your password is '+emp_data.Password+' \n\n\nThis is a system generated mail, Do not Reply.....'
             server = smtplib.SMTP('smtp.gmail.com',587)
@@ -301,14 +303,11 @@ def sales_add(request):
     try:
         Before_Data = Sales.objects.last()
         Before_Date = Before_Data.Date
-        #print(Before_Date,Current_date)
         if(Before_Date == Current_date):
-            #print(Before_Data.Sales,total,type(total))
             Before_Data.Sales += float(total)
             Before_Data.save()
             return Response('Same date add work')
         else:
-            #print(serializer,serializer.is_valid())
             if serializer.is_valid():
                 serializer.save()
                 return Response('new date amount added')
