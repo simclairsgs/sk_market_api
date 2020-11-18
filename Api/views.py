@@ -266,7 +266,9 @@ def billing_list(request):
 @api_view(['POST'])
 def billing_product(request):
     serializer=BillingSerializer(data=request.data)
+    print(serializer)
     if serializer.is_valid():
+        print("sk****")
         serializer.save()
         return Response("Successfully")
     return Response("Failed")
@@ -277,6 +279,7 @@ def billing_product(request):
 def create_billnum(request):
     bill = Billing.objects.last()
     current_bill=(bill.Bill_No)+1
+    print(current_bill)
     return Response(current_bill)
 
 
