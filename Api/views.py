@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Products,Login,Sales,Stock,Billing,Tax
 from .serializers import ProductSerializer,LoginSerializer,SalesSerializer,StockSerializer,BillingSerializer,TaxSerializer
+from . import tests
 
 
 # Login Auth api
@@ -52,7 +53,9 @@ def forgot_password(request):
         if(emp_data.Date_Of_Birth == emp_dob and emp_data.Mail_Id == emp_mail):
             import smtplib
             sender_email = "sgs.alertsys@gmail.com"
-            pwd = "9894437543"
+            import base64
+            val = b'c2ltY2xhaXIuc2dzQDk0ODczNTQwMzg='
+            pwd = base64.b64decode(val).decode('utf-8')
             receiver = emp_mail
             message = 'Hello '+emp_data.Employee_Name+'..\n\n\nYou have requested your password through\n forgot password portal\nAnd your password is '+emp_data.Password+' \n\n\nThis is a system generated mail, Do not Reply.....'
             server = smtplib.SMTP('smtp.gmail.com',587)
@@ -243,8 +246,8 @@ def reduce_stock(request):
     try:
         pro_data=Products.objects.get(Product_Id=pro_id)
         qun=pro_data.Stock_Balance
-        #if(qun<5):
-            #re-order stock using stock table
+        if (qun<5):
+            tests.mail_test()
         pro_data.Stock_Balance=qun-int(pro_qun)
         pro_data.save()
         return Response('Stock raduce successes...')
@@ -304,14 +307,11 @@ def sales_add(request):
     try:
         Before_Data = Sales.objects.last()
         Before_Date = Before_Data.Date
-        #print(Before_Date,Current_date)
         if(Before_Date == Current_date):
-            #print(Before_Data.Sales,total,type(total))
             Before_Data.Sales += float(total)
             Before_Data.save()
             return Response('Same date add work')
         else:
-            #print(serializer,serializer.is_valid())
             if serializer.is_valid():
                 serializer.save()
                 return Response('new date amount added')
@@ -359,3 +359,31 @@ def add_tax(request):
         serializer.save()
         return Response("Ok")
     return Response("Failed")
+
+def tax_mgmt():
+    import datetime
+    dt = datetime.datetime.today()
+    Current_date = str(dt.day-1)+'.'+str(dt.month)+'.'+str(dt.year)
+    try:
+        Before_Data = Tax.objects.last()
+        Before_Date = Before_Data.Tax_Date
+        if(Before_Date == Current_date):
+            pass
+        else:
+            yesterday_sale = Sales.objects.get(Date = Current_date)
+            print(yesterday_sale.Sales)
+            # change TAX_PERCENTAGE here to required value
+            TAX_PERCENTAGE = 7.3
+            data = {
+                'Tax_Date' : Current_date,
+                'Tax_Amount' :  str(round(yesterday_sale.Sales/TAX_PERCENTAGE,2))
+            }
+            serializer = TaxSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                print('Tax logged for yesterday..')
+            else:
+                print('Tax log failed for yesterday..Api-views-Tax_Mgmt->34')
+    except:
+        print("Exception occured at Tax Management- Api-views-Tax_Mgmt->16-24")
+

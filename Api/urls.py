@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+views.tax_mgmt()
+
 urlpatterns = [
     # Login Authentication 
     path('login-auth/',views.login_auth,name='login_auth'),

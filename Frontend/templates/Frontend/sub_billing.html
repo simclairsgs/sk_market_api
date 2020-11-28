@@ -6,6 +6,7 @@
     <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"/>-->
      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"/>
      <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"></link>
       <script type="text/javascript">
       if(!sessionStorage.getItem("auth_status"))
         {
@@ -141,7 +142,7 @@
         }
         $.post('api/sales-add/',"Date="+new Date().toLocaleDateString().split('/').join('.')+"&Sales="+Number(amt),function(dt,status)
         {
-            console.log(dt,status)
+            //console.log(dt,status)
         });
         //console.log(pcount,itlist,document.getElementById("billno-disp").innerText,new Date().toDateString()+" "+new Date().toLocaleTimeString(),data.Employee_Name,amt)
         $.post('api/billing-product/',"Bill_No="+document.getElementById("billno-disp").innerText+"&Timestamp="+new Date().toDateString()+" "+new Date().toLocaleTimeString()+
@@ -169,16 +170,26 @@
         })
     }
 
+    //adding product to list
     function add_product_to_table()
     {
        let p_id = document.getElementById("product-id-search").value
        let p_name = document.getElementById("product-name-search").value
        let Qty = document.getElementById("product-qty").value
-       if(p_id === "")
+       if(Number(Qty)<1)
+       {
+           toastr.error("Invalid Quantity")
+       }
+       else
+       {
+            if(p_id === "")
        {
            //console.log(p_name)
            $.get('api/getproduct-detailsname/'+p_name,function(data,status){
-                let lsno = sno;
+
+               if(Number(data.Stock_Balance) >= Number(Qty))
+               {
+                    let lsno = sno;
                     sno += 1; 
                     let fprice = Number(data.Price)*Number(Qty);
                     amt += fprice;
@@ -190,12 +201,20 @@
                     document.getElementById("product-qty").value = 1;
                     document.getElementById("product-name-search").value = "";
                     document.getElementById("product-id-search").select();
+               }
+               else
+               {
+                   toastr.error("Stock Limit Exceeded..")
+               }
+               
            })
        }
        else
        {
             $.get('/api/products-detail/'+p_id ,function(data,status)
                 {
+                    if(Number(data.Stock_Balance) >= Number(Qty))
+               {
                     let lsno = sno;
                     sno += 1; 
                     let fprice = Number(data.Price)*Number(Qty);
@@ -207,8 +226,18 @@
                     document.getElementById("product-id-search").value = "";
                     document.getElementById("product-qty").value = 1;
                     document.getElementById("product-id-search").select();
+               }
+                else
+               {
+                   toastr.error("Stock Limit Exceeded..")
+               }
+               
                 })
        }
+
+
+       }
+      
        
     }
      $('form input').keydown(function (e) {
