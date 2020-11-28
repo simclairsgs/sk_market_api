@@ -38,7 +38,7 @@ class Sales(models.Model):
     
 class Billing(models.Model):
     Bill_No=models.IntegerField()
-    Timestamp=models.CharField(max_length=25)
+    Timestamp=models.CharField(max_length=30)
     Products=models.CharField(max_length=1000)
     Product_Count=models.IntegerField()
     Amount=models.FloatField()
