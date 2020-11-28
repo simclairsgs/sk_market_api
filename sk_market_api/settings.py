@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,8 +26,11 @@ SECRET_KEY = '3q=4o#5clj*q7rr$-8+=z)tqp@j5r47_w@ir4qe9_q$tuu&9ig'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Add or remove Authenticated devices
+ALLOWED_HOSTS = ['*']
 
+# change Admin mail
+ADMIN_MAIL_ID = 'simclair.sgs@gmail.com'
 
 # Application definition
 
@@ -121,6 +125,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 X_FRAME_OPTIONS = 'ALLOWALL'
 

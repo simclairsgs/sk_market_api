@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+views.tax_mgmt()
+
 urlpatterns = [
     # Login Authentication 
     path('login-auth/',views.login_auth,name='login_auth'),
@@ -9,7 +11,6 @@ urlpatterns = [
     path('forgot-password/',views.forgot_password,name="forgot_password"),
 
     # Products data api
-    path('',views.api,name='api'),
     path('products/', views.product_list, name='list-products'),
     path('products-detail/<str:Id>/', views.product_detail, name='list-detail'),
     path('products-add/', views.product_add, name='add-product'),
