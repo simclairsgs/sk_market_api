@@ -21,7 +21,7 @@ urlpatterns = [
 
     # Employee/Login data api
     path('employee-addnew/',views.login_add_users,name='login-adduser'),
-    path('employees/',views.employee_list,name='Employee_list'),
+    path('employees/<str:Id>/',views.employee_list,name='Employee_list'),
     path('employee-delete/<str:Id>/',views.employee_delete,name='employee_delete'),
     path('employee-update/<str:Id>/', views.employee_update, name='employee-product'),
     

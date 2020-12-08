@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Products,Login,Sales,Stock,Billing,Tax
 from .serializers import ProductSerializer,LoginSerializer,SalesSerializer,StockSerializer,BillingSerializer,TaxSerializer
-from . import tests
 
 
 # Login Auth api
@@ -173,10 +172,14 @@ def get_product_detils_name(request,Name):
 # Employee/Login api views
 
 @api_view(['GET'])
-def employee_list(request):
-        login = Login.objects.all()
-        serializer = LoginSerializer(login, many=True)
-        return Response(serializer.data)
+def employee_list(request,Id):
+        from django.conf import settings
+        if settings.SECRET_KEY == Id :
+            login = Login.objects.all()
+            serializer = LoginSerializer(login, many=True)
+            return Response(serializer.data)
+        else:
+            return Response("Secret Key Failure...")
 
 
 @api_view(['POST'])
@@ -247,7 +250,19 @@ def reduce_stock(request):
         pro_data=Products.objects.get(Product_Id=pro_id)
         qun=pro_data.Stock_Balance
         if (qun<5):
-            tests.mail_test()
+            import smtplib
+            sender_email = "sgs.alertsys@gmail.com"
+            import base64
+            val = b'c2ltY2xhaXIuc2dzQDk0ODczNTQwMzg='
+            pwd = base64.b64decode(val).decode('utf-8')
+            from django.conf import settings
+            receiver = settings.ADMIN_MAIL_ID
+            message = 'Hey!! Admin,\n\tThis is a stock remainder for'+pro_data.Product_Name+'.Only few items left - '+ str(4) + '\n Order soon using stock table details from admin page.'+'Neglect the message, if its already done or remove product if wanted.'
+            server = smtplib.SMTP('smtp.gmail.com',587)
+            server.starttls()
+            server.login(sender_email,pwd)
+            server.sendmail(sender_email,receiver,message)
+            print('stock remainder mail sent..to '+receiver)
         pro_data.Stock_Balance=qun-int(pro_qun)
         pro_data.save()
         return Response('Stock raduce successes...')

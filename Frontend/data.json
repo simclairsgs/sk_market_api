@@ -1,8 +1,6 @@
 {
     "CompanyDetails" :
     {
-        "Name" : "SGR Supermarket",
-        "Since" : 1994 ,
-        "Location": "Chennai"
+        "Name" : "SGR Supermarket"
     }
 }
